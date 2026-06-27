@@ -87,42 +87,42 @@ namespace ogayImpl
 
 	#define UNPACK32(x, str)                      \
 	{                                             \
-		*((str) + 3) = (uint8) ((x)      );       \
-		*((str) + 2) = (uint8) ((x) >>  8);       \
-		*((str) + 1) = (uint8) ((x) >> 16);       \
-		*((str) + 0) = (uint8) ((x) >> 24);       \
+		*((str) + 3) = (uint8_t) ((x)      );       \
+		*((str) + 2) = (uint8_t) ((x) >>  8);       \
+		*((str) + 1) = (uint8_t) ((x) >> 16);       \
+		*((str) + 0) = (uint8_t) ((x) >> 24);       \
 	}
 
 	#define PACK32(str, x)                        \
 	{                                             \
-		*(x) =   ((uint32) *((str) + 3)      )    \
-			   | ((uint32) *((str) + 2) <<  8)    \
-			   | ((uint32) *((str) + 1) << 16)    \
-			   | ((uint32) *((str) + 0) << 24);   \
+		*(x) =   ((uint32_t) *((str) + 3)      )    \
+			   | ((uint32_t) *((str) + 2) <<  8)    \
+			   | ((uint32_t) *((str) + 1) << 16)    \
+			   | ((uint32_t) *((str) + 0) << 24);   \
 	}
 
 	#define UNPACK64(x, str)                      \
 	{                                             \
-		*((str) + 7) = (uint8) ((x)      );       \
-		*((str) + 6) = (uint8) ((x) >>  8);       \
-		*((str) + 5) = (uint8) ((x) >> 16);       \
-		*((str) + 4) = (uint8) ((x) >> 24);       \
-		*((str) + 3) = (uint8) ((x) >> 32);       \
-		*((str) + 2) = (uint8) ((x) >> 40);       \
-		*((str) + 1) = (uint8) ((x) >> 48);       \
-		*((str) + 0) = (uint8) ((x) >> 56);       \
+		*((str) + 7) = (uint8_t) ((x)      );       \
+		*((str) + 6) = (uint8_t) ((x) >>  8);       \
+		*((str) + 5) = (uint8_t) ((x) >> 16);       \
+		*((str) + 4) = (uint8_t) ((x) >> 24);       \
+		*((str) + 3) = (uint8_t) ((x) >> 32);       \
+		*((str) + 2) = (uint8_t) ((x) >> 40);       \
+		*((str) + 1) = (uint8_t) ((x) >> 48);       \
+		*((str) + 0) = (uint8_t) ((x) >> 56);       \
 	}
 
 	#define PACK64(str, x)                        \
 	{                                             \
-		*(x) =   ((uint64) *((str) + 7)      )    \
-			   | ((uint64) *((str) + 6) <<  8)    \
-			   | ((uint64) *((str) + 5) << 16)    \
-			   | ((uint64) *((str) + 4) << 24)    \
-			   | ((uint64) *((str) + 3) << 32)    \
-			   | ((uint64) *((str) + 2) << 40)    \
-			   | ((uint64) *((str) + 1) << 48)    \
-			   | ((uint64) *((str) + 0) << 56);   \
+		*(x) =   ((uint64_t) *((str) + 7)      )    \
+			   | ((uint64_t) *((str) + 6) <<  8)    \
+			   | ((uint64_t) *((str) + 5) << 16)    \
+			   | ((uint64_t) *((str) + 4) << 24)    \
+			   | ((uint64_t) *((str) + 3) << 32)    \
+			   | ((uint64_t) *((str) + 2) << 40)    \
+			   | ((uint64_t) *((str) + 1) << 48)    \
+			   | ((uint64_t) *((str) + 0) << 56);   \
 	}
 
 		/* Macros used for loops unrolling */
@@ -144,11 +144,11 @@ namespace ogayImpl
 	}
 
 
-	uint32 sha256_h0[8] =
+	uint32_t sha256_h0[8] =
 	{ 0x6a09e667, 0xbb67ae85, 0x3c6ef372, 0xa54ff53a,
 		0x510e527f, 0x9b05688c, 0x1f83d9ab, 0x5be0cd19 };
 
-	uint32 sha256_k[64] =
+	uint32_t sha256_k[64] =
 	{ 0x428a2f98, 0x71374491, 0xb5c0fbcf, 0xe9b5dba5,
 		0x3956c25b, 0x59f111f1, 0x923f82a4, 0xab1c5ed5,
 		0xd807aa98, 0x12835b01, 0x243185be, 0x550c7dc3,
@@ -167,30 +167,30 @@ namespace ogayImpl
 		0x90befffa, 0xa4506ceb, 0xbef9a3f7, 0xc67178f2 };
 
 	void sha256_init(sha256_ctx * ctx);
-	void sha256_update(sha256_ctx *ctx, const unsigned char *message,
+	void sha256_update(sha256_ctx *ctx, const uint8_t *message,
 		unsigned int len);
-	void sha256_final(sha256_ctx *ctx, unsigned char *digest);
-	void sha256(const unsigned char *message, unsigned int len,
-		unsigned char *digest);
-	void hmac_sha256_init(hmac_sha256_ctx *ctx, const unsigned char *key,
+	void sha256_final(sha256_ctx *ctx, uint8_t *digest);
+	void sha256(const uint8_t *message, unsigned int len,
+		uint8_t *digest);
+	void hmac_sha256_init(hmac_sha256_ctx *ctx, const uint8_t *key,
 		unsigned int key_size);
 	void hmac_sha256_reinit(hmac_sha256_ctx *ctx);
-	void hmac_sha256_update(hmac_sha256_ctx *ctx, const unsigned char *message,
+	void hmac_sha256_update(hmac_sha256_ctx *ctx, const uint8_t *message,
 		unsigned int message_len);
-	void hmac_sha256_final(hmac_sha256_ctx *ctx, unsigned char *mac,
+	void hmac_sha256_final(hmac_sha256_ctx *ctx, uint8_t *mac,
 		unsigned int mac_size);
-	void hmac_sha256(const unsigned char *key, unsigned int key_size,
-		const unsigned char *message, unsigned int message_len,
-		unsigned char *mac, unsigned mac_size);
+	void hmac_sha256(const uint8_t *key, unsigned int key_size,
+		const uint8_t *message, unsigned int message_len,
+		uint8_t *mac, unsigned mac_size);
 
 
-	void sha256_transf(sha256_ctx *ctx, const unsigned char *message,
+	void sha256_transf(sha256_ctx *ctx, const uint8_t *message,
 		unsigned int block_nb)
 	{
-		uint32 w[64];
-		uint32 wv[8];
-		uint32 t1, t2;
-		const unsigned char *sub_block;
+		uint32_t w[64];
+		uint32_t wv[8];
+		uint32_t t1, t2;
+		const uint8_t *sub_block;
 		int i;
 
 #ifndef UNROLL_LOOPS
@@ -299,7 +299,7 @@ namespace ogayImpl
 		}
 	}
 
-	void sha256(const unsigned char *message, unsigned int len, unsigned char *digest)
+	void sha256(const uint8_t *message, unsigned int len, uint8_t *digest)
 	{
 		sha256_ctx ctx;
 
@@ -326,12 +326,12 @@ namespace ogayImpl
 		ctx->tot_len = 0;
 	}
 
-	void sha256_update(sha256_ctx *ctx, const unsigned char *message,
+	void sha256_update(sha256_ctx *ctx, const uint8_t *message,
 		unsigned int len)
 	{
 		unsigned int block_nb;
 		unsigned int new_len, rem_len, tmp_len;
-		const unsigned char *shifted_message;
+		const uint8_t *shifted_message;
 
 		tmp_len = SHA256_BLOCK_SIZE - ctx->len;
 		rem_len = len < tmp_len ? len : tmp_len;
@@ -360,7 +360,7 @@ namespace ogayImpl
 		ctx->tot_len += (block_nb + 1) << 6;
 	}
 
-	void sha256_final(sha256_ctx *ctx, unsigned char *digest)
+	void sha256_final(sha256_ctx *ctx, uint8_t *digest)
 	{
 		unsigned int block_nb;
 		unsigned int pm_len;
@@ -401,14 +401,14 @@ namespace ogayImpl
 
 	/* HMAC-SHA-256 functions */
 
-	void hmac_sha256_init(hmac_sha256_ctx *ctx, const unsigned char *key,
+	void hmac_sha256_init(hmac_sha256_ctx *ctx, const uint8_t *key,
 		unsigned int key_size)
 	{
 		unsigned int fill;
 		unsigned int num;
 
-		const unsigned char *key_used;
-		unsigned char key_temp[SHA256_DIGEST_SIZE];
+		const uint8_t *key_used;
+		uint8_t key_temp[SHA256_DIGEST_SIZE];
 		int i;
 
 		if (key_size == SHA256_BLOCK_SIZE) {
@@ -458,17 +458,17 @@ namespace ogayImpl
 			sizeof(sha256_ctx));
 	}
 
-	void hmac_sha256_update(hmac_sha256_ctx *ctx, const unsigned char *message,
+	void hmac_sha256_update(hmac_sha256_ctx *ctx, const uint8_t *message,
 		unsigned int message_len)
 	{
 		sha256_update(&ctx->ctx_inside, message, message_len);
 	}
 
-	void hmac_sha256_final(hmac_sha256_ctx *ctx, unsigned char *mac,
+	void hmac_sha256_final(hmac_sha256_ctx *ctx, uint8_t *mac,
 		unsigned int mac_size)
 	{
-		unsigned char digest_inside[SHA256_DIGEST_SIZE];
-		unsigned char mac_temp[SHA256_DIGEST_SIZE];
+		uint8_t digest_inside[SHA256_DIGEST_SIZE];
+		uint8_t mac_temp[SHA256_DIGEST_SIZE];
 
 		sha256_final(&ctx->ctx_inside, digest_inside);
 		sha256_update(&ctx->ctx_outside, digest_inside, SHA256_DIGEST_SIZE);
@@ -476,9 +476,9 @@ namespace ogayImpl
 		memcpy(mac, mac_temp, mac_size);
 	}
 
-	void hmac_sha256(const unsigned char *key, unsigned int key_size,
-		const unsigned char *message, unsigned int message_len,
-		unsigned char *mac, unsigned mac_size)
+	void hmac_sha256(const uint8_t *key, unsigned int key_size,
+		const uint8_t *message, unsigned int message_len,
+		uint8_t *mac, unsigned mac_size)
 	{
 		hmac_sha256_ctx ctx;
 
@@ -486,139 +486,4 @@ namespace ogayImpl
 		hmac_sha256_update(&ctx, message, message_len);
 		hmac_sha256_final(&ctx, mac, mac_size);
 	}
-}
-
-//Wrapper classes containing Olivier Gay's implementation
-bool SHA256Key::operator==(const SHA256Key &rOther) const
-{
-	for (int i = 0; i < SHA256_DIGEST_SIZE; i++)
-	{
-		if (m_KeyBytes[i] != rOther.m_KeyBytes[i])
-		{
-			return false;
-		}
-	}
-	return true;
-}
-
-bool SHA256Key::operator!=(const SHA256Key &rOther) const
-{
-	return !operator==(rOther);
-}
-
-void SHA256Key::operator=(const SHA256Key &rOther)
-{
-	for (int i = 0; i < SHA256_DIGEST_SIZE; i++)
-	{
-		m_KeyBytes[i] = rOther.m_KeyBytes[i];
-	}
-}
-
-void SHA256Key::FromStringKey(const FString &str)
-{
-	//????
-	FString::ToHexBlob(str, m_KeyBytes, SHA256_DIGEST_SIZE);
-}
-
-FString SHA256Key::ToHexString()
-{
-	return FString::FromHexBlob(m_KeyBytes, SHA256_DIGEST_SIZE).ToLower();
-}
-
-//SHA 256
-void SHA256::Init()
-{
-	ogayImpl::sha256_init(&m_Context);
-}
-
-void SHA256::Update(const unsigned char *message, unsigned int len)
-{
-	ogayImpl::sha256_update(&m_Context, message, len);
-}
-
-void SHA256::Update(const FString &rStr)
-{
-	const auto len = rStr.Len();
-	Update((unsigned char*)TCHAR_TO_UTF8(*rStr), len);
-}
-
-void SHA256::Final(unsigned char *digest, int digestsize)
-{
-	check(digestsize == SHA256_DIGEST_SIZE);
-	ogayImpl::sha256_final(&m_Context, digest);
-}
-
-SHA256Key SHA256::Final()
-{
-	SHA256Key key;
-	Final(key.m_KeyBytes, SHA256_DIGEST_SIZE);
-	return key;
-}
-
-//HMAC SHA 256
-void HMAC_SHA256::Init(const unsigned char *key, unsigned int key_size)
-{
-	ogayImpl::hmac_sha256_init(&m_Context, key, key_size);
-}
-
-void HMAC_SHA256::Update(const unsigned char *message, unsigned int message_len)
-{
-	ogayImpl::hmac_sha256_update(&m_Context, message, message_len);
-}
-
-void HMAC_SHA256::Final(unsigned char *mac, unsigned int mac_size)
-{
-	ogayImpl::hmac_sha256_final(&m_Context, mac, mac_size);
-}
-
-void HMAC_SHA256::Hash(const unsigned char *key, unsigned int key_size,
-	const unsigned char *message, unsigned int message_len,
-	unsigned char *mac, unsigned mac_size)
-{
-	ogayImpl::hmac_sha256(key, key_size, message, message_len, mac, mac_size);
-}
-
-void HMAC_SHA256::Init(const FString &key)
-{
-	const auto len = key.Len();
-	Init((unsigned char*)TCHAR_TO_UTF8(*key), len);
-}
-
-void HMAC_SHA256::Init(const SHA256Key &key)
-{
-	Init(key.m_KeyBytes, SHA256_DIGEST_SIZE);
-}
-
-void HMAC_SHA256::Update(const FString &rMsg)
-{
-	const auto len = rMsg.Len();
-	Update((unsigned char*)TCHAR_TO_UTF8(*rMsg), len);
-}
-
-void HMAC_SHA256::ReInit()
-{
-	ogayImpl::hmac_sha256_reinit(&m_Context);
-}
-
-SHA256Key HMAC_SHA256::Final()
-{
-	SHA256Key ret;
-	ogayImpl::hmac_sha256_final(&m_Context, ret.m_KeyBytes, SHA256_DIGEST_SIZE);
-	return ret;
-}
-
-SHA256Key HMAC_SHA256::Hash(const FString& rKey, const FString& rMsg)
-{
-	HMAC_SHA256 tmp;
-	tmp.Init(rKey);
-	tmp.Update(rMsg);
-	return tmp.Final();
-}
-
-SHA256Key HMAC_SHA256::Hash(const SHA256Key& rKey, const FString& rMsg)
-{
-	HMAC_SHA256 tmp;
-	tmp.Init(rKey);
-	tmp.Update(rMsg);
-	return tmp.Final();
 }

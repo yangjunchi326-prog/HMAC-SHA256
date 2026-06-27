@@ -1,6 +1,7 @@
 #pragma once
 
-#include "CoreMinimal.h"
+#include <stdint.h>
+#include <string.h>
 
 /*
 * Data_SHA256
@@ -73,8 +74,8 @@ namespace ogayImpl
 	typedef struct {
 		unsigned int tot_len;
 		unsigned int len;
-		unsigned char block[2 * SHA256_BLOCK_SIZE];
-		uint32 h[8];
+		uint8_t block[2 * SHA256_BLOCK_SIZE];
+		uint32_t h[8];
 	} sha256_ctx;
 
 	typedef struct {
@@ -85,77 +86,24 @@ namespace ogayImpl
 		sha256_ctx ctx_inside_reinit;
 		sha256_ctx ctx_outside_reinit;
 
-		unsigned char block_ipad[SHA256_BLOCK_SIZE];
-		unsigned char block_opad[SHA256_BLOCK_SIZE];
+		uint8_t block_ipad[SHA256_BLOCK_SIZE];
+		uint8_t block_opad[SHA256_BLOCK_SIZE];
 	} hmac_sha256_ctx;
+
+	void sha256_init(sha256_ctx *ctx);
+	void sha256_update(sha256_ctx *ctx, const uint8_t *message,
+		unsigned int len);
+	void sha256_final(sha256_ctx *ctx, uint8_t *digest);
+	void sha256(const uint8_t *message, unsigned int len,
+		uint8_t *digest);
+	void hmac_sha256_init(hmac_sha256_ctx *ctx, const uint8_t *key,
+		unsigned int key_size);
+	void hmac_sha256_reinit(hmac_sha256_ctx *ctx);
+	void hmac_sha256_update(hmac_sha256_ctx *ctx, const uint8_t *message,
+		unsigned int message_len);
+	void hmac_sha256_final(hmac_sha256_ctx *ctx, uint8_t *mac,
+		unsigned int mac_size);
+	void hmac_sha256(const uint8_t *key, unsigned int key_size,
+		const uint8_t *message, unsigned int message_len,
+		uint8_t *mac, unsigned mac_size);
 }
-
-class SHA256Key
-{
-	friend class SHA256;
-	friend class HMAC_SHA256;
-	uint8 m_KeyBytes[SHA256_DIGEST_SIZE];
-public:
-	bool operator==(const SHA256Key &rOther) const;
-	bool operator!=(const SHA256Key &rOther) const;
-	void operator=(const SHA256Key &rOther);
-	SHA256Key() {}
-	SHA256Key(const SHA256Key &rOther)
-	{
-		*this = rOther;
-	}
-	FString ToHexString();
-	void FromStringKey(const FString &);
-};
-
-class SHA256
-{
-	ogayImpl::sha256_ctx m_Context;
-public:
-	void Init();
-	void Update(const unsigned char *message, unsigned int len);
-	void Update(const FString &rStr);
-	void Final(unsigned char *digest, int digestsize);
-	SHA256Key Final();
-	SHA256()
-	{
-		Init();
-	}
-
-	static SHA256Key Hash(const FString& rStr)
-	{
-		SHA256 tmp;
-		tmp.Update(rStr);
-		return tmp.Final();
-	}
-
-	static SHA256Key Hash(const unsigned char *message, unsigned int len)
-	{
-		SHA256 tmp;
-		tmp.Update(message, len);
-		return tmp.Final();
-	}
-};
-
-class HMAC_SHA256
-{
-	ogayImpl::hmac_sha256_ctx m_Context;
-public:
-	
-	HMAC_SHA256() {}
-	HMAC_SHA256(const unsigned char *key, unsigned int key_size) { Init(key, key_size); }
-	HMAC_SHA256(const FString &key) { Init(key); }
-	void Init(const unsigned char *key, unsigned int key_size);
-	void Init(const FString &key);
-	void Init(const SHA256Key &key);
-	void Update(const unsigned char *message, unsigned int message_len);
-	void Update(const FString &rMsg);
-	void ReInit();
-	void Final(unsigned char *mac, unsigned int mac_size);
-	SHA256Key Final();
-	static void Hash(const unsigned char *key, unsigned int key_size,
-				const unsigned char *message, unsigned int message_len,
-				unsigned char *mac, unsigned mac_size);
-	static SHA256Key Hash(const FString& rKey, const FString& rMsg);
-	static SHA256Key Hash(const SHA256Key& rKey, const FString& rMsg);
-};
